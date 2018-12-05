@@ -1,0 +1,61 @@
+<html>
+	<head>
+		<script type="text/javascript" src="jquery-3.3.1.js"></script>
+	</head>
+
+	<body>
+		<button id="add_product">Agregar producto</button><br/>
+		<div id="list_product">
+			<div id="item_1" class="item">
+				<input type="text" id="code" placeholder="Código..."/>&nbsp;&nbsp;
+				<input type="text" id="quantity" placeholder="Cantidad..."/>
+			</div>
+		</div><br/>
+		<button id="send_list_product">Enviar</button>
+	</body>
+
+	<script type="text/javascript">
+		var newItem = function(){
+			list_item = $("#list_product .item");
+			item_id = list_item.length + 1;
+			return '<div id="item_'+item_id+'" class="item"><input \
+					type="text" id="code" placeholder="code"/> \
+					<input type="text" id="quantity" placeholder \
+					="Cantidad..."/></div>';
+		};
+
+		$(document).ready(function(){
+			$("#add_product").click(function(e){
+				$("#list_product")[0].innerHTML += newItem();
+			});
+
+			$("#send_list_product").click(function(e){
+				var data = {
+					list_product: []
+				};
+
+				list_item = $("#list_product .item");
+				for(var i=0; i<list_item.length; i++){
+					item_container = list_item[i];
+					inputs  = item_container.getElementsByTagName("input");
+					product = {
+						code: inputs[0].value,
+						quantity: inputs[1].value
+					};
+					data.list_product.push(product);
+				}
+				
+				$.ajax({
+					type: 'post',
+					url: '/sale/add',
+					data: data,
+					dataType: 'text'
+				}).done(function(data){
+					console.log(data);
+				});
+			});
+		});
+
+	</script>
+
+</html>
