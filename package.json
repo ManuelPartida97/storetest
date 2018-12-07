@@ -21,5 +21,8 @@
     "postgresql",
     "express"
   ],
-  "author": "Manuel Partida"
+  "author": "Manuel Partida",
+  "devDependencies": {
+    "eslint": "^5.9.0"
+  }
 }
